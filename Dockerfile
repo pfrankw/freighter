@@ -26,12 +26,16 @@ RUN apt-get update && apt-get install -y \
 
 # Set the working directory inside the container
 
-RUN git clone https://github.com/buildroot/buildroot.git -b 2025.02.x /buildroot
-
 RUN useradd -ms /bin/bash user
 USER user
 
 WORKDIR /home/user
+
+RUN git clone https://github.com/buildroot/buildroot.git -b 2025.02.x /home/user/buildroot
+
+RUN mkdir /home/user/buildroot/overlay
+
+COPY overlay /home/user/buildroot/overlay
 
 # Optionally, copy the Buildroot source code into the container (or use a volume to mount it)
 # COPY buildroot /buildroot
